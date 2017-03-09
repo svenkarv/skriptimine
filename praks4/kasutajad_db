@@ -1,0 +1,12 @@
+#!/bin/bash
+
+for kasutaja in $(ls /home)
+do
+	if [ ! -f /home/$kasutaja/.my.cnf ]; then
+		sh lisa_db $kasutaja
+		echo "loon kasutaja $kasutaja conf faili"
+	else
+		echo "kasutaja" $kasutaja "conf juba eksisteerib"
+	fi
+done
+
