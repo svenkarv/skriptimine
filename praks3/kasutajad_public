@@ -1,0 +1,40 @@
+#!/bin/bash
+
+kasutaja=$1
+
+if [ ! -d /home/$kasutaja ]; then
+	echo "kasutaja kodukataloog puudub"
+else
+	if [ ! -d /home/$kasutaja/public ]; then
+        	echo "Public kaust puudub, kas loon? y/n"
+		read loomine
+		if [ $loomine = "y" ]; then
+			sh lisa_public $kasutaja
+		else
+			break
+		fi
+	else
+		output1=$(stat -c "%a" /home/$kasutaja/public/)
+        	if [ $output1 = "751" ]; then
+			echo "Kausta 6igused on korras"
+		else
+			echo "Kausta 6igused on paigast, kas muudan? y/n"
+			read loomine2
+			if [ $loomine2 = y ]; then
+				chmod 751 /home/$kasutaja/public
+			else
+				break
+			fi
+		fi
+
+		output2=$(find /home/$kasutaja/public/ -maxdepth 0 -empty -exec echo "1" \;)
+		if [ $output2 = "1" ]; then
+			echo "Kaust on tyhi, ei saa failide 6igusi muuta"
+			break
+		else
+			chmod -R 644 /home/$kasutaja/public/
+			chmod 751 /home/$kasutaja/public
+		fi 
+	fi
+fi
+

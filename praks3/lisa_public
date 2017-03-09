@@ -1,0 +1,14 @@
+#!/bin/bash
+
+kasutaja=$1
+
+mkdir /home/$kasutaja/public
+
+if [ $? = "0" ]; then
+        echo "kasutaja" $kasutaja "edukalt lisatud"
+else
+        echo "kasutaja loomine eba6nnestus"
+fi
+
+chown $kasutaja:$kasutaja /home/$kasutaja/public
+chmod 751 /home/$kasutaja/public
