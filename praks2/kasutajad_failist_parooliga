@@ -1,0 +1,13 @@
+#!/bin/bash
+
+echo "sisesta faili nimi: "
+read failinimi
+
+for i in `more $failinimi`
+do
+kasutaja=`echo $i | cut -d \: -f 1`
+parool=`echo $i | cut -d \: -f 2`
+sh ./lisa_kasutaja $kasutaja
+echo $kasutaja:$parool | chpasswd
+echo "loodud" $kasutaja "parooliga" $parool
+done
